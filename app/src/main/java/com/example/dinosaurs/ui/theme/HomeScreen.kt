@@ -4,17 +4,15 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,6 +21,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -43,10 +43,13 @@ fun HomeScreen(
     }
 }
 
+
 @Composable
 fun DinoPhotoCard(photo: DinoPhoto, modifier: Modifier = Modifier) {
     Card(
-        modifier = modifier,
+        modifier = modifier
+            .padding(4.dp)
+            .fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
     ) {
         AsyncImage(
@@ -65,19 +68,17 @@ fun DinoPhotoCard(photo: DinoPhoto, modifier: Modifier = Modifier) {
 
 @Composable
 fun PhotosGridScreen(photos: List<DinoPhoto>, modifier: Modifier = Modifier) {
-    LazyVerticalGrid(
-        columns = GridCells.Adaptive(150.dp),
+    LazyColumn(
         modifier = modifier.fillMaxWidth(),
-        contentPadding = PaddingValues(4.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         items(items = photos, key = { photo -> photo.id }) {
                 photo -> DinoPhotoCard(
-                    photo,
-                    modifier = modifier
-                        .padding(4.dp)
-                        .fillMaxWidth()
-                        .aspectRatio(1.5f)
-            )
+            photo,
+            modifier = modifier
+                .padding(4.dp)
+                .fillMaxWidth()
+        )
         }
     }
 }
@@ -103,9 +104,34 @@ fun ErrorScreen(modifier: Modifier = Modifier) {
         Text(text = stringResource(R.string.loading_failed), modifier = Modifier.padding(16.dp))
     }
 }
+
+@Composable
+fun CustomTextComponent(text: String, modifier: Modifier = Modifier) {
+    Text(
+        text = text,
+        style = MaterialTheme.typography.titleMedium,
+        textAlign = TextAlign.Justify,
+        modifier = modifier
+            .padding(16.dp)
+            .fillMaxWidth()
+    )
+}
 /**
  * ResultScreen displaying number of photos retrieved.
  */
+
+@Composable
+fun TitleLargeText(text: String, modifier: Modifier = Modifier) {
+    Text(
+        text = text,
+        style = MaterialTheme.typography.titleLarge,
+        fontWeight = FontWeight.Bold,
+        textAlign = TextAlign.Start,
+        modifier = modifier
+            .padding(16.dp)
+            .fillMaxWidth()
+    )
+}
 @Composable
 fun ResultScreen(photos: String, modifier: Modifier = Modifier) {
     Box(
